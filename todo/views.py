@@ -94,7 +94,6 @@ class TodosDetailApiView(APIView):
 
 # endregion
 
-
 # region mixins
 
 class TodosListMixinApiView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
@@ -108,7 +107,8 @@ class TodosListMixinApiView(mixins.ListModelMixin, mixins.CreateModelMixin, gene
         return self.create(request)
 
 
-class TodosDetailMixinApiView(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+class TodosDetailMixinApiView(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin,
+                              generics.GenericAPIView):
     queryset = Todo.objects.order_by('priority').all()
     serializer_class = TodoSerializer
 
@@ -120,5 +120,17 @@ class TodosDetailMixinApiView(mixins.RetrieveModelMixin, mixins.UpdateModelMixin
 
     def delete(self, request: Request, pk):
         return self.destroy(request, pk)
+
+# endregion
+
+# region generics
+
+class TodosGenericApiView(generics.ListCreateAPIView):
+    queryset = Todo.objects.order_by('priority').all()
+    serializer_class = TodoSerializer
+
+class TodosGenericDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Todo.objects.order_by('priority').all()
+    serializer_class = TodoSerializer
 
 # endregion

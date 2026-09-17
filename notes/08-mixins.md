@@ -55,3 +55,7 @@ class TodosDetailMixinApiView(mixins.RetrieveModelMixin, mixins.UpdateModelMixin
     def delete(self, request: Request, pk):
         return self.destroy(request, pk)
 ```
+
+14. آدرس آن:
+    `path('mixins/<pk>', views.TodosDetailMixinApiView.as_view())`
+
