@@ -3,10 +3,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from .models import Todo
-from .serializers import TodoSerializer
+from .serializers import TodoSerializer, UserSerializer
 from rest_framework.views import APIView
 from rest_framework import mixins, generics
 from rest_framework import viewsets
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 # region function base view
@@ -144,5 +147,15 @@ class TodosGenericDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 class TodosViewSetApiView(viewsets.ModelViewSet):
     queryset = Todo.objects.order_by('priority').all()
     serializer_class = TodoSerializer
+
+
+# endregion
+
+
+# region users
+
+class UsersGenericApiView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 # endregion
