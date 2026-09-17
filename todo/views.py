@@ -6,6 +6,7 @@ from .models import Todo
 from .serializers import TodoSerializer
 from rest_framework.views import APIView
 from rest_framework import mixins, generics
+from rest_framework import viewsets
 
 
 # region function base view
@@ -121,6 +122,7 @@ class TodosDetailMixinApiView(mixins.RetrieveModelMixin, mixins.UpdateModelMixin
     def delete(self, request: Request, pk):
         return self.destroy(request, pk)
 
+
 # endregion
 
 # region generics
@@ -129,7 +131,17 @@ class TodosGenericApiView(generics.ListCreateAPIView):
     queryset = Todo.objects.order_by('priority').all()
     serializer_class = TodoSerializer
 
+
 class TodosGenericDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Todo.objects.order_by('priority').all()
+    serializer_class = TodoSerializer
+
+
+# endregion
+
+# region viewsets
+
+class TodosViewSetApiView(viewsets.ModelViewSet):
     queryset = Todo.objects.order_by('priority').all()
     serializer_class = TodoSerializer
 
