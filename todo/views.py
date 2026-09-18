@@ -9,6 +9,8 @@ from rest_framework import mixins, generics
 from rest_framework import viewsets
 from django.contrib.auth import get_user_model
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 User = get_user_model()
 
@@ -134,10 +136,13 @@ class TodosDetailMixinApiView(mixins.RetrieveModelMixin, mixins.UpdateModelMixin
 class TodosGenericApiViewPagination(PageNumberPagination):
     page_size = 3
 
+
 class TodosGenericApiView(generics.ListCreateAPIView):
     queryset = Todo.objects.order_by('priority').all()
     serializer_class = TodoSerializer
     pagination_class = TodosGenericApiViewPagination
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
 class TodosGenericDetailApiView(generics.RetrieveUpdateDestroyAPIView):
